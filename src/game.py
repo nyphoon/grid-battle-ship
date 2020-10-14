@@ -1,8 +1,17 @@
 class Ship:
-    def __init__(self, *body):
-        self.life = {}
-        for point in body:
-            self.life[point] = 1
+    def __init__(self, area):
+        self.area = area  # tuple in (tl_x, tl_y, br_x, br_y)
+        self.life = {}  # every ship grid has one life point
+        self._create_life()
+
+    def _create_life(self):
+        # points_in_area
+        area = self.area
+        x = area[2] - area[0]
+        y = area[3] - area[1]
+        for i in range(x+1):
+            for j in range(y+1):
+                self.life[(area[0] + i, area[1] + j)] = 1
 
     def recieve_attack(self, point):
         if point in self.life and self.life[point] > 0:
@@ -16,17 +25,11 @@ class Ship:
     def is_attacked(self):
         # assume every point is life value 1
         return sum(self.life.values()) < len(self.life)
+
         
 def _mark_to_coordinate(mark):
     # coordinate system from (0,0)
     return int(mark[0]) - 1, ord(mark[1]) - 65
-    
-def _points_in_area(left_top, bottom_right):
-    x = bottom_right[0] - left_top[0]
-    y = bottom_right[1] - left_top[1]
-    for i in range(x+1):
-        for j in range(y+1):
-            yield (left_top[0] + i, left_top[1] + j)
 
 def create_ships(S):
     ship_marks = []
@@ -39,8 +42,9 @@ def create_ships(S):
 
     ships = []
     for ship_area in ship_areas:
-        ship_body = _points_in_area(ship_area[0], ship_area[1])
-        ship = Ship(*ship_body)
+        area = (ship_area[0][0], ship_area[0][1],
+                ship_area[1][0], ship_area[1][1])
+        ship = Ship(area)
         ships.append(ship)
     return ships
 
