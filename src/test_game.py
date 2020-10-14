@@ -26,3 +26,8 @@ def test_go_round():
     S = '1B 2C,2D 4D,5A 5C,6B 6C'
     T = '2A 4B'
     assert '0,0' == go_round(N, S, T)
+
+    N = 10
+    S = '1B 2C,2D 4D, 5G 6I, 1G 1J'
+    T = '2B 2D 3D 4D 4A 8F 9G 10A 1J'
+    assert '1,2' == go_round(N, S, T)
