@@ -28,8 +28,8 @@ class Ship:
 
         
 def _mark_to_coordinate(mark):
-    # coordinate system from (0,0)
-    return int(mark[0]) - 1, ord(mark[1]) - 65
+    # mark string {number}{one alphabet} to coordinate system from (0,0)
+    return int(mark[:-1]) - 1, ord(mark[-1]) - 65
 
 def create_ships(S):
     ship_marks = []
